@@ -9,8 +9,7 @@ from todo.models import Task
 
 def index(request):
     if request.method == 'POST':
-        task = Task(title=request.POST['title'],
-        due_at = make_aware(parse_datetime(request.POST['due_at'])))
+        task = Task(title=request.POST['title'], due_at=make_aware(parse_datetime(request.POST['due_at'])))
         task.save()
 
     if request.GET.get('order') == 'due':
@@ -23,13 +22,14 @@ def index(request):
     }
     return render(request, 'todo/index.html', context)
 
+
 def detail(request, task_id):
     try:
-        task = Task.objects.get(pk = task_id)
+        task = Task.objects.get(pk=task_id)
     except Task.DoesNotExist:
         raise Http404("Task does not exist")
 
     context = {
-        'task':task,
+        'task': task,
     }
     return render(request, 'todo/detail.html', context)
